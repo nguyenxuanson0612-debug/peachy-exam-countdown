@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { GraduationCap, Loader2, MessageCircle, RotateCcw, Send, Square, X } from "lucide-react";
 import { authHeader } from "@/lib/docs";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ export const useFloatingChat = () => useContext(FloatingChatContext);
 
 export function FloatingChatProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const show = useCallback(() => setOpen(true), []);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const close = () => { setOpen(false); requestAnimationFrame(() => triggerRef.current?.focus({ preventScroll: true })); };
   useEffect(() => {
@@ -19,7 +20,7 @@ export function FloatingChatProvider({ children }: { children: ReactNode }) {
     document.addEventListener("keydown", escape);
     return () => document.removeEventListener("keydown", escape);
   }, [open]);
-  return <FloatingChatContext.Provider value={{ open, show: () => setOpen(true) }}>
+  return <FloatingChatContext.Provider value={{ open, show }}>
     {children}
     <aside className="floating-chat" data-open={open}>
       <Button ref={triggerRef} size="icon" variant="chat" className="chat-bubble" hidden={open}
