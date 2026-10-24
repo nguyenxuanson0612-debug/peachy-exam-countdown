@@ -1,4 +1,4 @@
-import { streamText, type ModelMessage } from "ai";
+import { streamText, type LanguageModel, type ModelMessage } from "ai";
 import { createLovableAiGatewayProvider } from "./gateway.server";
 
 export const AI_MODEL = "google/gemini-3.8-flash";
@@ -24,7 +24,7 @@ export async function complete(system: string, messages: ModelMessage[]): Promis
   const provider = getProvider();
   let err: unknown;
   const result = streamText({
-    model: provider(AI_MODEL),
+    model: provider(AI_MODEL) as unknown as LanguageModel,
     system,
     messages,
     onError: ({ error }) => { err = error; },
