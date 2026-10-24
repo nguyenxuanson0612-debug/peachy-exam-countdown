@@ -12,3 +12,4 @@
 - Uploaded .docx files are converted to HTML in the browser (mammoth) and stored whole in `documents.html`; Chapter/Article/Situation anchors are tagged with `data-toc` so text is never split. Why: keeps reading continuous while TOC/search jump to anchors.
 - Highlights are `<mark class="hl">` saved back into the document HTML. Why: no separate offsets table to drift.
 - AI calls go through `src/lib/ai/llm.server.ts` (server-only); bearer-authenticated `/api/chat` returns AI SDK UI-message SSE consumed by `src/lib/chat-stream.ts`. Why: keep keys server-side and display partial responses without buffering or custom SSE parsing.
+- The authenticated shell owns one FloatingChatProvider and an always-mounted AI Elements chat panel; header and floating-button triggers share its state. Why: reading stays in place and minimizing or navigating does not interrupt streaming.

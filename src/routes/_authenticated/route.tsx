@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Countdown, Pomodoro } from "@/components/LoveCorner";
 import { SearchBox } from "@/components/SearchBox";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { FloatingChatProvider, useFloatingChat } from "@/components/FloatingChat";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -23,6 +25,7 @@ const NAV = [
 ] as const;
 
 function NavLinks({ onClick }: { onClick?: () => void }) {
+  const chat = useFloatingChat();
   const cls = "flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold text-muted-foreground hover:bg-primary-soft hover:text-accent-foreground";
   const active = { className: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground" };
   return (
@@ -33,7 +36,7 @@ function NavLinks({ onClick }: { onClick?: () => void }) {
         </Link>
       ))}
       <Link to="/thi" className={cls} activeProps={active} onClick={onClick}><ClipboardList className="h-4 w-4" /> Thi 180 phút</Link>
-      <Link to="/hoi-dap" className={cls} activeProps={active} onClick={onClick}><MessageCircle className="h-4 w-4" /> Hỏi đáp AI</Link>
+      <Button variant="ghost" className={`${cls} ${chat.open ? active.className : ""}`} aria-expanded={chat.open} aria-controls="floating-ai-chat" onClick={() => { onClick?.(); chat.show(); }}><MessageCircle className="h-4 w-4" /> Hỏi đáp AI</Button>
     </>
   );
 }
@@ -42,7 +45,7 @@ function AppShell() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   return (
-    <div className="min-h-screen">
+    <FloatingChatProvider><div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b bg-card/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-3 py-2.5 md:px-5">
           <Sheet open={open} onOpenChange={setOpen}>
@@ -67,6 +70,6 @@ function AppShell() {
         <nav className="mx-auto hidden max-w-7xl gap-1 overflow-x-auto px-5 pb-2 lg:flex"><NavLinks /></nav>
       </header>
       <main className="mx-auto max-w-7xl px-3 py-5 md:px-5"><Outlet /></main>
-    </div>
+    </div></FloatingChatProvider>
   );
 }
