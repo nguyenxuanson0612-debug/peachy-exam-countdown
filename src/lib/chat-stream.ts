@@ -10,14 +10,14 @@ export async function streamChat(
   onText: (text: string) => void,
   fetcher?: typeof fetch,
 ) {
-  const transport = new DefaultChatTransport({ api: "/api/chat", headers, fetch: fetcher });
+  const transport = new DefaultChatTransport({ api: "/api/chat", headers, ...(fetcher ? { fetch: fetcher } : {}) });
   const history: UIMessage[] = messages.map((message, i) => ({
     id: `message-${i}`,
     role: message.role,
     parts: [{ type: "text", text: message.content }],
   }));
   const stream = await transport.sendMessages({
-    trigger: "submit-message", chatId: "chat-history", messages: history, abortSignal: signal,
+    trigger: "submit-message", chatId: "chat-history", messageId: undefined, messages: history, abortSignal: signal,
   });
   let text = "";
   for await (const message of readUIMessageStream({ stream, terminateOnError: true })) {
