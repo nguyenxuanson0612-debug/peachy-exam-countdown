@@ -34,6 +34,9 @@
   --color-ring: var(--ring);
   --color-highlight: var(--highlight);
   --color-success: var(--success);
+  --color-chat-peach: var(--chat-peach);
+  --color-chat-foreground: var(--chat-foreground);
+  --color-chat-soft: var(--chat-soft);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -68,6 +71,10 @@
   --ring: oklch(0.656 0.212 354.3);
   --highlight: oklch(0.93 0.19 115);
   --success: oklch(0.62 0.15 155);
+  --chat-peach: oklch(0.8 0.13 20);
+  --chat-foreground: oklch(0.28 0.08 10);
+  --chat-soft: oklch(0.97 0.023 20);
+  --shadow-chat: 0 12px 40px -10px color-mix(in oklab, var(--chat-foreground) 28%, transparent);
   --gradient-primary: linear-gradient(135deg, oklch(0.7 0.19 354), oklch(0.62 0.22 0));
   --shadow-soft: 0 10px 30px -12px color-mix(in oklab, var(--primary) 30%, transparent);
   --sidebar: oklch(1 0 0);
@@ -92,6 +99,19 @@
 
 @utility bg-gradient-primary { background-image: var(--gradient-primary); }
 @utility shadow-soft { box-shadow: var(--shadow-soft); }
+@utility shadow-chat { box-shadow: var(--shadow-chat); }
+
+.floating-chat { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 2147483000; }
+.chat-bubble { width: 60px; height: 60px; border-radius: 50%; animation: chat-breathe 3s ease-in-out infinite; }
+.chat-bubble svg { width: 27px; height: 27px; }
+.chat-bubble:active { animation: none; transform: scale(.9); }
+.chat-window { width: min(350px, calc(100vw - 32px)); height: min(500px, calc(100dvh - 32px)); border: 1px solid var(--border); border-radius: 16px; background: var(--card); color: var(--card-foreground); box-shadow: var(--shadow-chat); overflow: hidden; transform-origin: bottom right; animation: chat-expand .4s cubic-bezier(.2,.8,.2,1) both; }
+.chat-window[hidden], .chat-bubble[hidden] { display: none; }
+.chat-window .md { overflow-wrap: anywhere; }
+.chat-window .md pre { max-width: 100%; overflow-x: auto; }
+@keyframes chat-breathe { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-5px) scale(1.045); } }
+@keyframes chat-expand { 0% { opacity: 0; transform: scale(.15); border-radius: 50%; } 15% { opacity: 1; transform: scale(.12); } 100% { opacity: 1; transform: scale(1); border-radius: 16px; } }
+@media (prefers-reduced-motion: reduce) { .chat-bubble, .chat-window { animation: none; } }
 
 /* Reader typography */
 .doc-reader { font-size: 1.05rem; line-height: 1.85; font-weight: 500; color: var(--color-card-foreground); }
