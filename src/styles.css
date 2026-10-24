@@ -194,3 +194,13 @@ body { isolation: isolate; letter-spacing: 0; }
 .md p { margin: .5rem 0; } .md ul, .md ol { padding-left: 1.4rem; list-style: revert; margin: .4rem 0; }
 .md h1, .md h2, .md h3 { font-weight: 800; margin: 1rem 0 .4rem; color: var(--color-primary); }
 .md strong { font-weight: 800; } .md blockquote { border-left: 3px solid var(--color-primary); padding-left: .8rem; color: var(--color-muted-foreground); }
+
+/* Gemini particle canvas + aurora */
+.gemini-particles { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+.cinematic-hero .hero-veil { z-index: 0; }
+.cinematic-hero .hero-content, .cinematic-hero .hero-caption { z-index: 2; }
+.hero-aurora { position: absolute; z-index: -1; left: -6%; top: 38%; width: 112%; height: 62%; border-radius: 50%; filter: blur(38px); opacity: .75; pointer-events: none;
+  background: radial-gradient(40% 60% at 20% 50%, color-mix(in oklab, var(--primary) 55%, transparent), transparent 70%), radial-gradient(40% 60% at 60% 40%, oklch(0.75 0.2 330 / .5), transparent 70%), radial-gradient(40% 60% at 85% 60%, oklch(0.9 0.08 350 / .7), transparent 70%);
+  background-size: 200% 200%; animation: hero-aurora 9s ease-in-out infinite alternate; }
+@keyframes hero-aurora { 0% { background-position: 0% 50%; transform: translateX(-4%) skewY(-3deg) scale(1); filter: blur(38px) hue-rotate(0deg); } 50% { background-position: 100% 30%; transform: translateX(4%) skewY(3deg) scale(1.08); filter: blur(42px) hue-rotate(-18deg); } 100% { background-position: 40% 80%; transform: translateX(-2%) skewY(-1deg) scale(.96); filter: blur(36px) hue-rotate(12deg); } }
+@media (prefers-reduced-motion: reduce) { .hero-aurora { animation: none; } }
