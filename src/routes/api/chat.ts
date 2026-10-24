@@ -24,7 +24,7 @@ export const Route = createFileRoute("/api/chat")({
           .slice(0, 50000);
 
         const { streamText } = await import("ai");
-        const { getProvider, AI_MODEL, friendlyAiError } = await import("@/lib/ai/llm.server");
+        const { getProvider, AI_MODEL } = await import("@/lib/ai/llm.server");
         const result = streamText({
           model: getProvider()(AI_MODEL),
           system: `Bạn là gia sư ôn thi viên chức giáo dục tận tâm, giải thích rõ ràng, ngắn gọn, bằng tiếng Việt, dùng Markdown. Ưu tiên dựa trên tài liệu của người học (nếu có), trích dẫn Điều/Chương khi phù hợp.\n\nTÀI LIỆU CỦA NGƯỜI HỌC:\n${ctx || "(chưa có)"}`,
@@ -34,7 +34,6 @@ export const Route = createFileRoute("/api/chat")({
         return result.toTextStreamResponse({
           headers: { "Content-Type": "text/plain; charset=utf-8" },
         });
-        void friendlyAiError;
       },
     },
   },
