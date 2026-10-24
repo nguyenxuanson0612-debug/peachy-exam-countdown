@@ -8,7 +8,7 @@ import { FishboneMode, PracticeMode } from "@/components/StudyModes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/hoc/$category")({
-  validateSearch: (s: Record<string, unknown>) => ({ to: typeof s.to === "string" ? s.to : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ to: typeof s['to'] === "string" ? (s['to'] as string) : undefined }),
   beforeLoad: ({ params }) => { if (!(params.category in CATEGORIES)) throw notFound(); },
   loader: ({ context }) => context.queryClient.ensureQueryData(docsQuery),
   head: ({ params }) => {

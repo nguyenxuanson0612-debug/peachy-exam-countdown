@@ -7,7 +7,7 @@ export const Route = createFileRoute("/api/chat")({
         const auth = request.headers.get("authorization");
         if (!auth?.startsWith("Bearer ")) return new Response("Unauthorized", { status: 401 });
         const { createClient } = await import("@supabase/supabase-js");
-        const sb = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
+        const sb = createClient(process.env['SUPABASE_URL']!, process.env['SUPABASE_PUBLISHABLE_KEY']!, {
           global: { headers: { Authorization: auth } },
           auth: { persistSession: false, autoRefreshToken: false },
         });

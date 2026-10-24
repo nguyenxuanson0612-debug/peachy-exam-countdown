@@ -5,7 +5,7 @@ export const AI_MODEL = "google/gemini-3.8-flash";
 const GATEWAY = "https://ai.gateway.lovable.dev/v1";
 
 export function getProvider() {
-  const key = process.env.LOVABLE_API_KEY;
+  const key = process.env['LOVABLE_API_KEY'];
   if (!key) throw new Error("Thiếu cấu hình AI (LOVABLE_API_KEY).");
   return createLovableAiGatewayProvider(key, undefined, { baseURL: GATEWAY });
 }

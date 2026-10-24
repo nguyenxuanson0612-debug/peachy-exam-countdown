@@ -64,7 +64,7 @@ function Toc({ docs, tocs, onGo }: { docs: Doc[]; tocs: Record<string, TocItem[]
   );
 }
 
-export function Reader({ docs, category, target }: { docs: Doc[]; category: string; target?: string }) {
+export function Reader({ docs, category, target }: { docs: Doc[]; category: string; target?: string | undefined }) {
   const qc = useQueryClient();
   const containerRef = useRef<HTMLDivElement>(null);
   const [tocOpen, setTocOpen] = useState(false);

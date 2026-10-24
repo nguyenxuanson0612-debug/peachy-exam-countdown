@@ -28,7 +28,7 @@ function NavLinks({ onClick }: { onClick?: () => void }) {
   return (
     <>
       {NAV.map((n) => (
-        <Link key={n.cat} to="/hoc/$category" params={{ category: n.cat }} className={cls} activeProps={active} onClick={onClick}>
+        <Link key={n.cat} to="/hoc/$category" params={{ category: n.cat }} search={{ to: undefined }} className={cls} activeProps={active} onClick={onClick}>
           <n.icon className="h-4 w-4" /> {n.label}
         </Link>
       ))}
