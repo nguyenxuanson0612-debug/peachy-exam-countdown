@@ -62,7 +62,7 @@ function Index() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f, i) => (
             <motion.div key={f.title} initial={reducedMotion ? false : { opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.5, delay: i * 0.06 }}>
-              <motion.div className="feature-card h-full" whileHover={reducedMotion ? undefined : { y: -7, scale: 1.015 }} transition={{ type: "spring", stiffness: 260, damping: 19 }}>
+              <motion.div className="feature-card h-full" whileHover={reducedMotion ? {} : { y: -7, scale: 1.015 }} transition={{ type: "spring", stiffness: 260, damping: 19 }}>
                 <Link to="/auth" className="block h-full p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                   <div className="flex items-center justify-between"><span className={`feature-icon feature-icon-${i % 3}`}><f.icon className="size-5" /></span><span className="text-xs font-medium text-muted-foreground">0{i + 1}</span></div>
                   <p className="mt-5 text-[10px] font-semibold text-primary">{f.label}</p>
