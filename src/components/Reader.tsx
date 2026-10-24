@@ -166,7 +166,7 @@ export function Reader({ docs, category, target }: { docs: Doc[]; category: stri
 
   return (
     <div className="grid gap-5 lg:grid-cols-[280px_1fr]">
-      <aside className="sticky top-36 hidden max-h-[calc(100vh-10rem)] overflow-auto rounded-2xl bg-card p-4 shadow-soft lg:block">
+      <aside className="reader-toc sticky top-36 hidden max-h-[calc(100vh-10rem)] overflow-auto rounded-lg p-5 lg:block">
         <p className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-muted-foreground"><ListTree className="h-4 w-4" /> Mục lục</p>
         {docs.length ? <Toc docs={docs} tocs={tocs} onGo={go} /> : <p className="text-sm text-muted-foreground">Chưa có tài liệu</p>}
       </aside>
@@ -182,7 +182,7 @@ export function Reader({ docs, category, target }: { docs: Doc[]; category: stri
           <span className="flex items-center gap-1 text-xs text-muted-foreground"><Highlighter className="h-3.5 w-3.5" /> Bôi đen chữ để tô dạ quang · bấm vào chữ đã tô để bỏ</span>
         </div>
 
-        <div ref={containerRef} onMouseUp={onMouseUp} onTouchEnd={onMouseUp} onClick={onClick} className="rounded-2xl bg-card p-5 shadow-soft md:p-10">
+        <div ref={containerRef} onMouseUp={onMouseUp} onTouchEnd={onMouseUp} onClick={onClick} className="reading-surface rounded-lg p-5 md:p-10">
           {docs.length === 0 && (
             <div className="py-20 text-center text-muted-foreground">
               <FileUp className="mx-auto h-12 w-12 text-primary" />

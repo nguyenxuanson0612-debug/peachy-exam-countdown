@@ -72,18 +72,18 @@ function AuthPage() {
   };
 
   return (
-    <div className="grid min-h-screen lg:grid-cols-2">
-      <div className="relative hidden flex-col justify-between overflow-hidden bg-gradient-primary p-12 text-primary-foreground lg:flex">
+    <div className="auth-page grid min-h-screen lg:grid-cols-2">
+      <div className="auth-intro relative hidden flex-col justify-between overflow-hidden p-12 text-foreground lg:flex">
         <Link to="/" className="flex items-center gap-2 text-lg font-bold"><Heart className="h-6 w-6 fill-current" /> Ôn Thi Viên Chức</Link>
         <div>
-          <h1 className="font-display text-5xl font-bold leading-tight">Mỗi ngày một chút,<br />đậu viên chức thật chắc.</h1>
-          <p className="mt-4 max-w-md text-lg opacity-90">Luật, chuyên môn, tình huống sư phạm — học bằng sơ đồ xương cá, luyện đề 180 phút, có AI chấm điểm chi tiết.</p>
+          <h1 className="font-display text-5xl font-bold leading-tight">Tri thức vững vàng.<br /><span className="text-primary">Tương lai rộng mở.</span></h1>
+          <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground">Không gian học tập dành riêng cho hành trình ôn thi viên chức của bạn. Mỗi ngày một bước tiến, mỗi kiến thức một nền tảng.</p>
         </div>
         <p className="text-sm opacity-80">💗 Tiếp sức từ người yêu</p>
       </div>
 
       <div className="flex items-center justify-center p-6">
-        <div className="w-full max-w-md rounded-2xl bg-card p-8 shadow-soft">
+        <div className="glass-surface w-full max-w-md rounded-lg p-8 shadow-elegant">
           <h2 className="font-display text-3xl font-bold">Chào mừng bạn</h2>
           <p className="mt-1 text-sm text-muted-foreground">Đăng nhập để tiếp tục hành trình ôn thi</p>
 

@@ -81,7 +81,7 @@ function AppShell() {
   return (
     <FloatingChatProvider>
       <div className="min-h-screen">
-        <header className="sticky top-0 z-40 border-b bg-card/90 backdrop-blur">
+        <header className="app-header sticky top-0 z-40 border-b">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-3 py-2.5 md:px-5">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger className="rounded-md p-2 lg:hidden" aria-label="Menu">
@@ -123,7 +123,7 @@ function AppShell() {
             <NavLinks />
           </nav>
         </header>
-        <main className="mx-auto max-w-7xl px-3 py-5 md:px-5">
+        <main className="study-workspace mx-auto max-w-7xl px-3 py-7 md:px-5">
           <Outlet />
         </main>
       </div>
