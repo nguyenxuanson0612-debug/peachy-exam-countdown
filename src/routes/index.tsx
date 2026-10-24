@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUpRight, BookOpen, Brain, Clock, Heart, MessageCircle, 
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import cinematicStudy from "@/assets/cinematic-study.jpg";
+import { GeminiParticleCanvas } from "@/components/GeminiParticleCanvas";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,9 +43,10 @@ function Index() {
       <section className="cinematic-hero">
         <img src={cinematicStudy} width={1920} height={1024} alt="Cuốn sách mở giữa không gian kính và dải lụa hồng ngập ánh sáng" className="hero-image" fetchPriority="high" />
         <div className="hero-veil" />
+        <GeminiParticleCanvas />
         <motion.div {...entrance} className="hero-content">
           <p className="mb-6 flex items-center gap-2 text-xs font-semibold uppercase text-accent-foreground"><Sparkles className="size-4" /> Nền tảng ôn thi viên chức độc quyền</p>
-          <h1 className="hero-title font-display">Ôn Thi Viên Chức<span className="mt-2 block text-primary">Tri thức vững vàng.<br />Tương lai rộng mở.</span></h1>
+          <h1 className="hero-title font-display">Ôn Thi Viên Chức<span className="relative isolate mt-2 block text-primary"><span className="hero-aurora" aria-hidden="true" />Tri thức vững vàng.<br />Tương lai rộng mở.</span></h1>
           <p className="mt-6 max-w-lg text-base leading-relaxed text-muted-foreground">Một hành trình học tập được chăm chút cho bạn: kiến thức có hệ thống, luyện thi chuyên sâu và trí tuệ nhân tạo đồng hành — để mỗi ngày ôn tập là một bước tiến tự tin.</p>
           <div className="mt-8 flex flex-wrap items-center gap-5">
             <Button size="lg" className="h-12 rounded-full px-7 shadow-elegant" asChild><Link to="/auth">Bắt đầu hành trình <ArrowUpRight /></Link></Button>
