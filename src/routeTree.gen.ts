@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedHoiDapRouteImport } from './routes/_authenticated/hoi-dap'
+import { Route as AuthenticatedThiRouteImport } from './routes/_authenticated/thi'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedHocCategoryRouteImport } from './routes/_authenticated/hoc.$category'
 
@@ -29,6 +31,16 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedHoiDapRoute = AuthenticatedHoiDapRouteImport.update({
+  id: '/hoi-dap',
+  path: '/hoi-dap',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedThiRoute = AuthenticatedThiRouteImport.update({
+  id: '/thi',
+  path: '/thi',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -44,12 +56,16 @@ const AuthenticatedHocCategoryRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/hoi-dap': typeof AuthenticatedHoiDapRoute
+  '/thi': typeof AuthenticatedThiRoute
   '/api/chat': typeof ApiChatRoute
   '/hoc/$category': typeof AuthenticatedHocCategoryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/hoi-dap': typeof AuthenticatedHoiDapRoute
+  '/thi': typeof AuthenticatedThiRoute
   '/api/chat': typeof ApiChatRoute
   '/hoc/$category': typeof AuthenticatedHocCategoryRoute
 }
@@ -58,19 +74,24 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/hoi-dap': typeof AuthenticatedHoiDapRoute
+  '/_authenticated/thi': typeof AuthenticatedThiRoute
   '/api/chat': typeof ApiChatRoute
   '/_authenticated/hoc/$category': typeof AuthenticatedHocCategoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/api/chat' | '/hoc/$category'
+  fullPaths:
+    '/' | '/auth' | '/hoi-dap' | '/thi' | '/api/chat' | '/hoc/$category'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/api/chat' | '/hoc/$category'
+  to: '/' | '/auth' | '/hoi-dap' | '/thi' | '/api/chat' | '/hoc/$category'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/hoi-dap'
+    | '/_authenticated/thi'
     | '/api/chat'
     | '/_authenticated/hoc/$category'
   fileRoutesById: FileRoutesById
@@ -105,6 +126,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/hoi-dap': {
+      id: '/_authenticated/hoi-dap'
+      path: '/hoi-dap'
+      fullPath: '/hoi-dap'
+      preLoaderRoute: typeof AuthenticatedHoiDapRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/thi': {
+      id: '/_authenticated/thi'
+      path: '/thi'
+      fullPath: '/thi'
+      preLoaderRoute: typeof AuthenticatedThiRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -123,10 +158,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedHoiDapRoute: typeof AuthenticatedHoiDapRoute
+  AuthenticatedThiRoute: typeof AuthenticatedThiRoute
   AuthenticatedHocCategoryRoute: typeof AuthenticatedHocCategoryRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedHoiDapRoute: AuthenticatedHoiDapRoute,
+  AuthenticatedThiRoute: AuthenticatedThiRoute,
   AuthenticatedHocCategoryRoute: AuthenticatedHocCategoryRoute,
 }
 
