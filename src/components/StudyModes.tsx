@@ -69,7 +69,7 @@ function QuestionCard({ q, i, category }: { q: Question; i: number; category: st
           try { setFb(await grade({ data: { category, question: q.question, answer: essay } })); }
           catch (e) { toast.error((e as Error).message); } finally { setLoading(false); }
         }}>{loading ? <Loader2 className="animate-spin" /> : <Sparkles />} AI chấm bài</Button>
-        {fb && <div className="prose prose-sm mt-3 max-w-none rounded-lg bg-muted p-4"><ReactMarkdown>{fb}</ReactMarkdown></div>}
+        {fb && <div className="md mt-3 rounded-lg bg-muted p-4"><ReactMarkdown>{fb}</ReactMarkdown></div>}
         {fb && <details className="mt-2 text-sm"><summary className="cursor-pointer text-primary">Xem đáp án gợi ý</summary><p className="mt-1">{q.sample}</p></details>}
       </div>
     );
