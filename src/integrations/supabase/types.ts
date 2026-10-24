@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      documents: {
+        Row: {
+          category: string
+          created_at: string
+          html: string
+          id: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          html?: string
+          id?: string
+          title: string
+          user_id?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          html?: string
+          id?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      exam_attempts: {
+        Row: {
+          answer: string
+          created_at: string
+          exam_doc_id: string | null
+          exam_title: string
+          feedback: string | null
+          id: string
+          score: number | null
+          seconds_left: number
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answer?: string
+          created_at?: string
+          exam_doc_id?: string | null
+          exam_title?: string
+          feedback?: string | null
+          id?: string
+          score?: number | null
+          seconds_left?: number
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          exam_doc_id?: string | null
+          exam_title?: string
+          feedback?: string | null
+          id?: string
+          score?: number | null
+          seconds_left?: number
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
