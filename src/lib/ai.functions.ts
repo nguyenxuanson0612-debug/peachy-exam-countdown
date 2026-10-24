@@ -97,7 +97,7 @@ export const gradeExam = createServerFn({ method: "POST" })
       [{ role: "user", content: `ĐỀ THI:\n${examText || att.exam_title}\n\nBÀI LÀM:\n${att.answer}\n\nTÀI LIỆU THAM KHẢO:\n${docs}` }],
     );
     const m = feedback.match(/ĐIỂM:\s*([\d.,]+)/i);
-    const score = m ? Number(m[1].replace(",", ".")) : null;
+    const score = m?.[1] ? Number(m[1].replace(",", ".")) : null;
     const { error: upErr } = await sb
       .from("exam_attempts")
       .update({ feedback, score, status: "graded", updated_at: new Date().toISOString() })

@@ -129,7 +129,7 @@ function ExamPage() {
 
   const start = async (docId: string, title: string) => {
     const { data, error } = await supabase.from("exam_attempts").insert({ exam_doc_id: docId, exam_title: title }).select().single();
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["attempts"] });
     setActive(data as Attempt);
   };
