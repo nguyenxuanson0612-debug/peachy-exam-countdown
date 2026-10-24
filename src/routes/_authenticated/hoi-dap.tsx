@@ -1,10 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import { GraduationCap, Loader2, RotateCcw, Send, Square } from "lucide-react";
-import { authHeader } from "@/lib/docs";
+import { useEffect } from "react";
+import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { streamChat, type ChatMessage } from "@/lib/chat-stream";
+import { useFloatingChat } from "@/components/FloatingChat";
 
 export const Route = createFileRoute("/_authenticated/hoi-dap")({
   head: () => ({ meta: [
@@ -17,76 +15,8 @@ export const Route = createFileRoute("/_authenticated/hoi-dap")({
   component: ChatPage,
 });
 
-type Msg = ChatMessage;
-const KEY = "chat-history";
-
 function ChatPage() {
-  const [msgs, setMsgs] = useState<Msg[]>([]);
-  const [input, setInput] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-  const abortRef = useRef<AbortController | null>(null);
-  const endRef = useRef<HTMLDivElement>(null);
-  const taRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    try { setMsgs(JSON.parse(localStorage.getItem(KEY) ?? "[]")); } catch { /* ignore */ }
-    taRef.current?.focus();
-  }, []);
-  useEffect(() => {
-    if (!busy) localStorage.setItem(KEY, JSON.stringify(msgs));
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [msgs, busy]);
-
-  const send = async () => {
-    const text = input.trim();
-    if (!text || busy || abortRef.current) return;
-    const next: Msg[] = [...msgs, { role: "user", content: text }];
-    setMsgs([...next, { role: "assistant", content: "" }]);
-    setInput(""); setBusy(true); setError("");
-    const ac = new AbortController(); abortRef.current = ac;
-    try {
-      const acc = await streamChat(next, await authHeader(), ac.signal, (content) => {
-        setMsgs([...next, { role: "assistant", content }]);
-      });
-      if (!acc) setMsgs([...next, { role: "assistant", content: "_(AI không trả lời được câu này)_" }]);
-    } catch (e) {
-      if (!ac.signal.aborted) setError(e instanceof Error ? e.message : "Không thể kết nối AI. Vui lòng thử lại.");
-    } finally {
-      abortRef.current = null;
-      setBusy(false);
-      taRef.current?.focus();
-    }
-  };
-
-  return (
-    <div className="mx-auto flex h-[calc(100vh-11rem)] max-w-3xl flex-col rounded-2xl bg-card shadow-soft">
-      <div className="flex items-center gap-3 border-b p-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-primary text-primary-foreground"><GraduationCap className="h-5 w-5" /></div>
-        <div className="flex-1"><p className="font-bold">Gia sư AI</p><p className="text-xs text-muted-foreground">Hỏi đáp 1:1 · dựa trên tài liệu của bạn</p></div>
-        <Button variant="ghost" size="sm" disabled={busy} onClick={() => { setMsgs([]); setError(""); localStorage.removeItem(KEY); }}><RotateCcw /> Cuộc trò chuyện mới</Button>
-      </div>
-      <div className="flex-1 space-y-4 overflow-auto p-4">
-        {!msgs.length && <p className="mt-16 text-center text-muted-foreground">Hỏi gì cũng được: "Giải thích Điều 12 Luật Viên chức", "Gợi ý xử lý tình huống học sinh đánh nhau"…</p>}
-        {msgs.map((m, i) => (
-          <div key={i} className={m.role === "user" ? "flex justify-end" : ""}>
-            {m.role === "user"
-              ? <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-br-sm bg-primary px-4 py-2 text-primary-foreground">{m.content}</div>
-              : m.content ? <div className="md max-w-none"><ReactMarkdown>{m.content}</ReactMarkdown></div>
-               : busy && i === msgs.length - 1 ? <Loader2 className="h-5 w-5 animate-spin text-primary" /> : null}
-          </div>
-        ))}
-        {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-        <div ref={endRef} />
-      </div>
-      <div className="flex items-end gap-2 border-t p-3">
-        <textarea ref={taRef} rows={2} value={input} onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
-          placeholder="Nhập câu hỏi… (Enter để gửi)" className="flex-1 resize-none rounded-xl border bg-background p-3 text-sm outline-none focus:ring-2 focus:ring-ring" />
-        {busy
-          ? <Button size="icon" variant="outline" onClick={() => abortRef.current?.abort()} aria-label="Dừng"><Square /></Button>
-          : <Button size="icon" onClick={send} disabled={!input.trim()} aria-label="Gửi"><Send /></Button>}
-      </div>
-    </div>
-  );
+  const { show } = useFloatingChat();
+  useEffect(() => { show(); }, [show]);
+  return <section><h1 className="font-display text-3xl font-bold">Hỏi đáp AI</h1><Button className="mt-4" onClick={show}><MessageCircle /> Gia sư AI</Button></section>;
 }
