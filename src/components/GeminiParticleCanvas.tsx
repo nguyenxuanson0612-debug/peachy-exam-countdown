@@ -9,8 +9,8 @@ const PALETTE = ["#EC4899", "#D946EF", "#F43F5E", "#FB7185", "#F9A8D4"].map((h) 
 function colorAt(t: number) {
   const n = PALETTE.length;
   const x = ((t % n) + n) % n;
-  const a = PALETTE[Math.floor(x)];
-  const b = PALETTE[(Math.floor(x) + 1) % n];
+  const a = PALETTE[Math.floor(x)] ?? PALETTE[0]!;
+  const b = PALETTE[(Math.floor(x) + 1) % n] ?? PALETTE[0]!;
   const f = x - Math.floor(x);
   return `rgb(${Math.round(a[0] + (b[0] - a[0]) * f)},${Math.round(a[1] + (b[1] - a[1]) * f)},${Math.round(a[2] + (b[2] - a[2]) * f)})`;
 }
