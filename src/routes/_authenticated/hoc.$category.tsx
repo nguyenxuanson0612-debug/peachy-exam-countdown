@@ -31,12 +31,12 @@ function StudyPage() {
   const c = CATEGORIES[category as CategoryKey];
   return (
     <div>
-      <div className="mb-4">
+      <div className="study-heading mb-6">
         <h1 className="font-display text-3xl font-bold md:text-4xl">{c.label}</h1>
         <p className="text-muted-foreground">{c.desc}</p>
       </div>
       <Tabs defaultValue="doc" key={category}>
-        <TabsList className="mb-4 h-auto flex-wrap bg-card shadow-soft">
+        <TabsList className="glass-surface mb-5 h-auto flex-wrap shadow-soft">
           <TabsTrigger value="doc" className="gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"><BookOpenText className="h-4 w-4" /> Đọc tài liệu</TabsTrigger>
           <TabsTrigger value="learn" className="gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"><Fish className="h-4 w-4" /> Chế độ Học thi</TabsTrigger>
           <TabsTrigger value="practice" className="gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"><PencilLine className="h-4 w-4" /> Chế độ Ôn tập</TabsTrigger>
