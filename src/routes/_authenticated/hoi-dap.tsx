@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import { GraduationCap, Loader2, RotateCcw, Send, Square } from "lucide-react";
 import { authHeader } from "@/lib/docs";
 import { Button } from "@/components/ui/button";
+import { streamChat, type ChatMessage } from "@/lib/chat-stream";
 
 export const Route = createFileRoute("/_authenticated/hoi-dap")({
   head: () => ({ meta: [
@@ -16,13 +17,14 @@ export const Route = createFileRoute("/_authenticated/hoi-dap")({
   component: ChatPage,
 });
 
-type Msg = { role: "user" | "assistant"; content: string };
+type Msg = ChatMessage;
 const KEY = "chat-history";
 
 function ChatPage() {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
   const abortRef = useRef<AbortController | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const taRef = useRef<HTMLTextAreaElement>(null);
@@ -38,29 +40,23 @@ function ChatPage() {
 
   const send = async () => {
     const text = input.trim();
-    if (!text || busy) return;
+    if (!text || busy || abortRef.current) return;
     const next: Msg[] = [...msgs, { role: "user", content: text }];
     setMsgs([...next, { role: "assistant", content: "" }]);
-    setInput(""); setBusy(true);
+    setInput(""); setBusy(true); setError("");
     const ac = new AbortController(); abortRef.current = ac;
     try {
-      const res = await fetch("/api/chat", {
-        method: "POST", signal: ac.signal,
-        headers: { "Content-Type": "application/json", ...(await authHeader()) },
-        body: JSON.stringify({ messages: next }),
+      const acc = await streamChat(next, await authHeader(), ac.signal, (content) => {
+        setMsgs([...next, { role: "assistant", content }]);
       });
-      if (!res.ok || !res.body) throw new Error(res.status === 429 ? "AI đang quá tải, thử lại sau." : res.status === 402 ? "Đã hết lượt dùng AI." : "AI gặp lỗi.");
-      const reader = res.body.getReader(); const dec = new TextDecoder(); let acc = "";
-      for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        acc += dec.decode(value, { stream: true });
-        setMsgs([...next, { role: "assistant", content: acc }]);
-      }
       if (!acc) setMsgs([...next, { role: "assistant", content: "_(AI không trả lời được câu này)_" }]);
     } catch (e) {
-      if ((e as Error).name !== "AbortError") setMsgs([...next, { role: "assistant", content: `⚠️ ${(e as Error).message}` }]);
-    } finally { setBusy(false); taRef.current?.focus(); }
+      if (!ac.signal.aborted) setError(e instanceof Error ? e.message : "Không thể kết nối AI. Vui lòng thử lại.");
+    } finally {
+      abortRef.current = null;
+      setBusy(false);
+      taRef.current?.focus();
+    }
   };
 
   return (
@@ -68,7 +64,7 @@ function ChatPage() {
       <div className="flex items-center gap-3 border-b p-4">
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-primary text-primary-foreground"><GraduationCap className="h-5 w-5" /></div>
         <div className="flex-1"><p className="font-bold">Gia sư AI</p><p className="text-xs text-muted-foreground">Hỏi đáp 1:1 · dựa trên tài liệu của bạn</p></div>
-        <Button variant="ghost" size="sm" onClick={() => { setMsgs([]); localStorage.removeItem(KEY); }}><RotateCcw /> Cuộc trò chuyện mới</Button>
+        <Button variant="ghost" size="sm" disabled={busy} onClick={() => { setMsgs([]); setError(""); localStorage.removeItem(KEY); }}><RotateCcw /> Cuộc trò chuyện mới</Button>
       </div>
       <div className="flex-1 space-y-4 overflow-auto p-4">
         {!msgs.length && <p className="mt-16 text-center text-muted-foreground">Hỏi gì cũng được: "Giải thích Điều 12 Luật Viên chức", "Gợi ý xử lý tình huống học sinh đánh nhau"…</p>}
@@ -77,9 +73,10 @@ function ChatPage() {
             {m.role === "user"
               ? <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-br-sm bg-primary px-4 py-2 text-primary-foreground">{m.content}</div>
               : m.content ? <div className="md max-w-none"><ReactMarkdown>{m.content}</ReactMarkdown></div>
-              : <Loader2 className="h-5 w-5 animate-spin text-primary" />}
+               : busy && i === msgs.length - 1 ? <Loader2 className="h-5 w-5 animate-spin text-primary" /> : null}
           </div>
         ))}
+        {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <div ref={endRef} />
       </div>
       <div className="flex items-end gap-2 border-t p-3">
