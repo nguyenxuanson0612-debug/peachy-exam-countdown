@@ -42,7 +42,7 @@ function AuthPage() {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => { if (data.user) navigate({ to: "/hoc/$category", params: { category: "luat" } }); });
+    supabase.auth.getUser().then(({ data }) => { if (data.user) navigate({ to: "/hoc/$category", params: { category: "luat" }, search: { to: undefined } }); });
   }, [navigate]);
 
   const google = async () => {
@@ -50,15 +50,15 @@ function AuthPage() {
     const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/auth" });
     if (r.error) { toast.error("Đăng nhập Google thất bại"); setLoading(false); return; }
     if (r.redirected) return;
-    navigate({ to: "/hoc/$category", params: { category: "luat" } });
+    navigate({ to: "/hoc/$category", params: { category: "luat" }, search: { to: undefined } });
   };
 
   const signIn = async (e: React.FormEvent) => {
     e.preventDefault(); setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
-    if (error) return toast.error("Email hoặc mật khẩu không đúng");
-    navigate({ to: "/hoc/$category", params: { category: "luat" } });
+    if (error) { toast.error("Email hoặc mật khẩu không đúng"); return; }
+    navigate({ to: "/hoc/$category", params: { category: "luat" }, search: { to: undefined } });
   };
 
   const signUp = async (e: React.FormEvent) => {
@@ -67,7 +67,7 @@ function AuthPage() {
       email, password, options: { emailRedirectTo: window.location.origin + "/auth", data: { full_name: name } },
     });
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Đã gửi email xác nhận. Vui lòng kiểm tra hộp thư để kích hoạt tài khoản.");
   };
 
