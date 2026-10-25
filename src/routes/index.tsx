@@ -4,6 +4,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import cinematicStudy from "@/assets/cinematic-study.jpg";
 import { GeminiParticleCanvas } from "@/components/GeminiParticleCanvas";
+import { StarMatrixCanvas } from "@/components/StarMatrixCanvas";
+import flashcardsStudy from "@/assets/flashcards-study.jpg";
+import studyPlanner from "@/assets/study-planner.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -56,6 +59,8 @@ function Index() {
         </motion.div>
         <div className="hero-caption"><span className="h-px w-8 bg-primary/50" /> Học sâu. Nhớ lâu. Tự tin bước tới.</div>
       </section>
+      <div className="landing-continuation">
+      <StarMatrixCanvas />
       <section id="hanh-trinh" className="feature-section">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div><p className="mb-3 text-xs font-semibold uppercase text-primary">ĐƯỢC THIẾT KẾ CHO HÀNH TRÌNH CỦA BẠN</p><h2 className="font-display text-3xl font-bold">Từng bước nhỏ. Một mục tiêu lớn.</h2></div>
@@ -76,7 +81,18 @@ function Index() {
           ))}
         </div>
       </section>
+      <section className="study-showcase" aria-label="Flash Card và lộ trình học tập">
+        <article className="showcase-row">
+          <img src={flashcardsStudy} width={1024} height={768} loading="lazy" alt="Bộ thẻ ghi nhớ hồng trắng với dấu trang san hô" />
+          <div><p className="mb-3 text-xs font-semibold uppercase text-primary">FLASH CARD</p><h2 className="font-display text-3xl font-bold leading-tight">Ghi nhớ thông minh,<br />nhanh chóng với Flash Card</h2><p className="mt-4 text-sm leading-relaxed text-muted-foreground">Từ tài liệu của bạn đến những thẻ kiến thức trọng tâm. Ôn lại từng chủ đề, đánh dấu phần đã nhớ và tập trung vào phần cần củng cố.</p><Button asChild className="mt-6"><Link to="/hoc/$category" params={{ category: "luat" }} search={{ to: undefined, mode: "flashcard" }}>Khám phá Flash Card <ArrowUpRight /></Link></Button></div>
+        </article>
+        <article className="showcase-row showcase-reverse">
+          <img src={studyPlanner} width={1024} height={768} loading="lazy" alt="Sổ kế hoạch học tập với dấu hoàn thành và các bậc tiến bộ" />
+          <div><p className="mb-3 text-xs font-semibold uppercase text-primary">LỘ TRÌNH CỦA RIÊNG BẠN</p><h2 className="font-display text-3xl font-bold leading-tight">Cá nhân hóa<br />lộ trình học tập</h2><p className="mt-4 text-sm leading-relaxed text-muted-foreground">Sắp xếp mục tiêu theo từng môn, chọn ngày học phù hợp và nhìn thấy tiến độ của mình. Hành trình rõ ràng, nhịp học vừa sức.</p><Button asChild variant="outline" className="mt-6"><Link to="/lo-trinh">Tạo lộ trình của bạn <ArrowUpRight /></Link></Button></div>
+        </article>
+      </section>
       <footer className="landing-footer"><span className="flex items-center gap-2"><Sparkles className="size-4 text-primary" /> Ôn Thi Viên Chức</span><span>Tri thức hôm nay. Vững bước ngày mai.</span></footer>
+      </div>
     </div>
   );
 }

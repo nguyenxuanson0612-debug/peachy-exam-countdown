@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedHoiDapRouteImport } from './routes/_authenticated/hoi-dap'
+import { Route as AuthenticatedLoTrinhRouteImport } from './routes/_authenticated/lo-trinh'
 import { Route as AuthenticatedThiRouteImport } from './routes/_authenticated/thi'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedHocCategoryRouteImport } from './routes/_authenticated/hoc.$category'
@@ -36,6 +37,11 @@ const AuthenticatedHoiDapRoute = AuthenticatedHoiDapRouteImport.update({
   path: '/hoi-dap',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedLoTrinhRoute = AuthenticatedLoTrinhRouteImport.update({
+  id: '/lo-trinh',
+  path: '/lo-trinh',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedThiRoute = AuthenticatedThiRouteImport.update({
   id: '/thi',
   path: '/thi',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/hoi-dap': typeof AuthenticatedHoiDapRoute
+  '/lo-trinh': typeof AuthenticatedLoTrinhRoute
   '/thi': typeof AuthenticatedThiRoute
   '/api/chat': typeof ApiChatRoute
   '/hoc/$category': typeof AuthenticatedHocCategoryRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/hoi-dap': typeof AuthenticatedHoiDapRoute
+  '/lo-trinh': typeof AuthenticatedLoTrinhRoute
   '/thi': typeof AuthenticatedThiRoute
   '/api/chat': typeof ApiChatRoute
   '/hoc/$category': typeof AuthenticatedHocCategoryRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/hoi-dap': typeof AuthenticatedHoiDapRoute
+  '/_authenticated/lo-trinh': typeof AuthenticatedLoTrinhRoute
   '/_authenticated/thi': typeof AuthenticatedThiRoute
   '/api/chat': typeof ApiChatRoute
   '/_authenticated/hoc/$category': typeof AuthenticatedHocCategoryRoute
@@ -82,15 +91,29 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/hoi-dap' | '/thi' | '/api/chat' | '/hoc/$category'
+    | '/'
+    | '/auth'
+    | '/hoi-dap'
+    | '/lo-trinh'
+    | '/thi'
+    | '/api/chat'
+    | '/hoc/$category'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/hoi-dap' | '/thi' | '/api/chat' | '/hoc/$category'
+  to:
+    | '/'
+    | '/auth'
+    | '/hoi-dap'
+    | '/lo-trinh'
+    | '/thi'
+    | '/api/chat'
+    | '/hoc/$category'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/hoi-dap'
+    | '/_authenticated/lo-trinh'
     | '/_authenticated/thi'
     | '/api/chat'
     | '/_authenticated/hoc/$category'
@@ -133,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHoiDapRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/lo-trinh': {
+      id: '/_authenticated/lo-trinh'
+      path: '/lo-trinh'
+      fullPath: '/lo-trinh'
+      preLoaderRoute: typeof AuthenticatedLoTrinhRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/thi': {
       id: '/_authenticated/thi'
       path: '/thi'
@@ -159,12 +189,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedHoiDapRoute: typeof AuthenticatedHoiDapRoute
+  AuthenticatedLoTrinhRoute: typeof AuthenticatedLoTrinhRoute
   AuthenticatedThiRoute: typeof AuthenticatedThiRoute
   AuthenticatedHocCategoryRoute: typeof AuthenticatedHocCategoryRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHoiDapRoute: AuthenticatedHoiDapRoute,
+  AuthenticatedLoTrinhRoute: AuthenticatedLoTrinhRoute,
   AuthenticatedThiRoute: AuthenticatedThiRoute,
   AuthenticatedHocCategoryRoute: AuthenticatedHocCategoryRoute,
 }

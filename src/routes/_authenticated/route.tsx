@@ -10,6 +10,7 @@ import {
   Scale,
   Lightbulb,
   Users,
+  Map,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Countdown, Pomodoro } from "@/components/LoveCorner";
@@ -59,6 +60,7 @@ function NavLinks({ onClick }: { onClick?: () => void }) {
       <Link to="/thi" className={cls} activeProps={active} onClick={onClick}>
         <ClipboardList className="h-4 w-4" /> Thi 180 phút
       </Link>
+      <Link to="/lo-trinh" className={cls} activeProps={active} onClick={onClick}><Map className="h-4 w-4" /> Lộ trình học tập</Link>
       <Button
         variant="ghost"
         className={`${cls} ${chat.open ? active.className : ""}`}
