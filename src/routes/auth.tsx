@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { StarMatrixCanvas } from "@/components/StarMatrixCanvas";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -74,6 +75,7 @@ function AuthPage() {
   return (
     <div className="auth-page grid min-h-screen lg:grid-cols-2">
       <div className="auth-intro relative hidden flex-col justify-between overflow-hidden p-12 text-foreground lg:flex">
+        <StarMatrixCanvas className="auth-star-matrix" />
         <Link to="/" className="flex items-center gap-2 text-lg font-bold"><Heart className="h-6 w-6 fill-current" /> Ôn Thi Viên Chức</Link>
         <div>
           <h1 className="font-display text-5xl font-bold leading-tight">Tri thức vững vàng.<br /><span className="text-primary">Tương lai rộng mở.</span></h1>
