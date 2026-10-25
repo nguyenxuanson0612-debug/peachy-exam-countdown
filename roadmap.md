@@ -3,3 +3,9 @@
 - [x] Redesign introduction and six feature cards with Framer Motion.
 - [x] Preserve stationary readable documents and floating chat behavior.
 - [x] Verify routes, existing tests, and desktop/mobile presentation.
+
+# Seamless background and study tools
+- [ ] Blend homepage hero into a shared background and add animated star matrices to homepage/auth.
+- [ ] Refine glass cards and add illustrated Flash Card / personal plan banners.
+- [ ] Add usable category Flash Cards and personal study-plan management.
+- [ ] Verify study interactions, responsive layouts, and existing tests.
