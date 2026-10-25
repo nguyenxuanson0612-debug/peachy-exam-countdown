@@ -12,7 +12,9 @@ function colorAt(t: number) {
   const a = PALETTE[Math.floor(x)] ?? PALETTE[0]!;
   const b = PALETTE[(Math.floor(x) + 1) % n] ?? PALETTE[0]!;
   const f = x - Math.floor(x);
-  return `rgb(${Math.round(a[0] + (b[0] - a[0]) * f)},${Math.round(a[1] + (b[1] - a[1]) * f)},${Math.round(a[2] + (b[2] - a[2]) * f)})`;
+  const [ar = 0, ag = 0, ab = 0] = a;
+  const [br = 0, bg = 0, bb = 0] = b;
+  return `rgb(${Math.round(ar + (br - ar) * f)},${Math.round(ag + (bg - ag) * f)},${Math.round(ab + (bb - ab) * f)})`;
 }
 
 type P = { bx: number; by: number; z: number; ang: number; dist: number; size: number; star: boolean; hue: number; speed: number; phase: number; op: number; glow: number; ox: number; oy: number };
